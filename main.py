@@ -6,23 +6,33 @@ pygame.init()
 # Creating Screen
 screen = pygame.display.set_mode((800, 600))
 
+clock = pygame.time.Clock()
+
 # Console Screen Title w/ Icon
 pygame.display.set_caption("Runner")
 # icon = pygame.image.load('')
 # pygame.display.set_icon(icon)
 
-# Player Image
-runner_image = [
-
+# Player Running Image
+running_image = [
+    pygame.transform.scale_by(pygame.image.load("assets/img/running/fighter_run_0017.png"), 0.5),
+    pygame.transform.scale_by(pygame.image.load("assets/img/running/fighter_run_0018.png"), 0.5),
+    pygame.transform.scale_by(pygame.image.load("assets/img/running/fighter_run_0019.png"), 0.5),
+    pygame.transform.scale_by(pygame.image.load("assets/img/running/fighter_run_0020.png"), 0.5),
+    pygame.transform.scale_by(pygame.image.load("assets/img/running/fighter_run_0021.png"), 0.5),
+    pygame.transform.scale_by(pygame.image.load("assets/img/running/fighter_run_0022.png"), 0.5),
+    pygame.transform.scale_by(pygame.image.load("assets/img/running/fighter_run_0023.png"), 0.5),
+    pygame.transform.scale_by(pygame.image.load("assets/img/running/fighter_run_0024.png"), 0.5)
 ]
 
 # Player
-player_image = pygame.image.load()
 playerX = 0
-playerY = 100
+playerY = 200
 
-def player():
-    screen.blit(player_image, (playerX, playerY))
+frame_index = 0
+
+def player(img, x, y):
+    screen.blit(img, (playerX, playerY))
 
 # Starting with the game
 running = True
@@ -35,5 +45,14 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    player()
+    frame_index += 0.2
+
+    if frame_index >= len(running_image):
+        frame_index = 0
+
+    current_image = running_image[int(frame_index)]
+
+    player(current_image, playerX, playerY)
+
     pygame.display.update()
+    clock.tick(60)

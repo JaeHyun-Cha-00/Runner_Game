@@ -30,21 +30,37 @@ running_image = [
 playerX = 0
 playerY = 200
 
+# Level
+level = 1
+level_dist = 7200
+player_speed = 2
+cumulative_dist = 0
+
 frame_index = 0
 
 def player(img, x, y):
     screen.blit(img, (playerX, playerY))
 
+
 # Starting with the game
 running = True
 
 while running:
-
+    # Background
     screen.fill((255,255,255))
 
+    # Land
+    pygame.draw.line(screen, (0, 0, 0), (0, 390), (7200, 390), 3)
+
+    # Exiting the Game
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+    #
+    cumulative_dist += player_speed
+    if cumulative_dist >= level_dist:
+        running = False
 
     frame_index += 0.2
 

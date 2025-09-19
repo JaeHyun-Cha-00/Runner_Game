@@ -10,8 +10,9 @@ clock = pygame.time.Clock()
 
 # Console Screen Title w/ Icon
 pygame.display.set_caption("Runner")
-# icon = pygame.image.load('')
-# pygame.display.set_icon(icon)
+icon = pygame.image.load("assets/img/running/fighter_run_0017.png")
+icon = pygame.transform.scale(icon, (32, 32))
+pygame.display.set_icon(icon)
 
 # Player Running Image
 running_image = [

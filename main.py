@@ -94,6 +94,13 @@ while running:
         if obs.right < 0:
             obstacles.remove(obs)
 
+    # If player collides with obstacles
+    player_rect = current_image.get_rect(topleft=(playerX, playerY))
+    if any(player_rect.colliderect(obs) for obs in obstacles):
+        print("Game Over")
+        running = False
+
+    # Create player
     player(current_image, playerX, playerY)
 
     pygame.display.update()

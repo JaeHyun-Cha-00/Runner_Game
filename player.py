@@ -1,15 +1,15 @@
 import pygame
-from settings import PLAYER_X, PLAYER_Y, ANIM_SPEED
 
 class Player:
-    def __init__(self, images, x=PLAYER_X, y=PLAYER_Y):
+    def __init__(self, images, x, y, anim_speed = 0.2):
         self.images = images
         self.x = x
         self.y = y
         self.frame_index = 0.0
+        self.anim_speed = anim_speed
 
     def update(self):
-        self.frame_index += ANIM_SPEED
+        self.frame_index += self.anim_speed
         if self.frame_index >= len(self.images):
             self.frame_index = 0.0
 
@@ -19,4 +19,4 @@ class Player:
 
     def rect(self) -> pygame.Rect:
         img = self.images[int(self.frame_index)]
-        return img.get_rect(topleft=(self.x, self.y))
+        return img.get_rect(center=(self.x, self.y))

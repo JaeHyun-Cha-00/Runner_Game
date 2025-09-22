@@ -1,11 +1,10 @@
 import pygame
+import random
 
 # Init
 pygame.init()
 
-# Creating Screen
 screen = pygame.display.set_mode((800, 600))
-
 clock = pygame.time.Clock()
 
 # Console Screen Title w/ Icon
@@ -30,17 +29,30 @@ running_image = [
 playerX = 0
 playerY = 200
 
+frame_index = 0
+
 # Level
 level = 1
 level_dist = 7200
 player_speed = 2
 cumulative_dist = 0
 
-frame_index = 0
-
 def player(img, x, y):
     screen.blit(img, (playerX, playerY))
 
+# Obstacles
+obstacles_speed = 6
+obstacles_min_gap = 300
+obstacles_max_gap = 700
+obstacles_width = 40
+obstacles_height = 80
+obstacles = []
+next_obstacle_spawn = random.randint(obstacles_min_gap, obstacles_max_gap)
+
+def spawn_obstacles():
+    x = 800 + random.randint(0,200)
+    y = 390 - obstacles_height
+    return pygame.Rect(x, y, obstacles_width, obstacles_height)
 
 # Starting with the game
 running = True
@@ -57,7 +69,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    #
+    # Cumulative distanace checking
     cumulative_dist += player_speed
     if cumulative_dist >= level_dist:
         running = False
@@ -68,6 +80,19 @@ while running:
         frame_index = 0
 
     current_image = running_image[int(frame_index)]
+
+    next_obstacle_spawn -= obstacles_speed
+    if next_obstacle_spawn <= 0:
+        obstacles.append(spawn_obstacles())
+        next_obstacle_spawn = random.randint(obstacles_min_gap, obstacles_max_gap)
+
+    # Create Obstacle using Loop
+    for obs in obstacles[:]:
+        obs.x -= obstacles_speed
+        pygame.draw.rect(screen, (0, 0, 0), obs)
+
+        if obs.right < 0:
+            obstacles.remove(obs)
 
     player(current_image, playerX, playerY)
 
